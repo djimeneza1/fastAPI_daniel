@@ -39,20 +39,18 @@ def get_movie(id: int):
             return item
     return []
 
-@app.get('/movies/', tags=['movies']) #filtrado de peliculas por categoria
+@app.get('/movies/', tags=['movies'])
 def get_movies_by_category(category: str, year: int):
     return [ item for item in movies if item['category'] == category ]
 
-@app.post('/movies', tags=['movies']) 
-# tags: nombre de la pagina pestanha
-# body para que la peticion no llegue como query
+@app.post('/movies', tags=['movies'])
 def create_movie(id: int = Body(), 
                  title: str = Body(), 
                  overview:str = Body(), 
                  year:int = Body(), 
                  rating: float = Body(), 
                  category: str = Body()):
-    movies.append({ #para modificar el diccionario movies
+    movies.append({
         "id": id,
         "title": title,
         "overview": overview,
@@ -61,3 +59,27 @@ def create_movie(id: int = Body(),
         "category": category
     })
     return movies
+
+@app.put('/movies/{id}', tags=['movies'])
+def update_movie(id: int,#ya no se requiere como bodu, es un parametro para 
+                 #identicar antes de hacer la modificacion 
+                 title: str = Body(), 
+                 overview:str = Body(), 
+                 year:int = Body(), 
+                 rating: float = Body(), 
+                 category: str = Body()):
+	for item in movies:
+		if item["id"] == id:
+			item['title'] = title,
+			item['overview'] = overview,
+			item['year'] = year,
+			item['rating'] = rating,
+			item['category'] = category
+			return movies
+
+@app.delete('/movies/{id}', tags=['movies'])
+def delete_movie(id: int):
+    for item in movies:
+        if item["id"] == id:
+            movies.remove(item)
+            return movies
