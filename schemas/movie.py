@@ -1,5 +1,6 @@
-from pydantic import BaseModel,Field
+from pydantic import BaseModel, Field
 from typing import Optional, List
+
 
 class Movie(BaseModel):
     id: Optional[int] = None
@@ -20,3 +21,4 @@ class Movie(BaseModel):
                 "category" : "Acción"
             }
         }
+
